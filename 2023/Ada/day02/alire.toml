@@ -1,0 +1,11 @@
+name = "day02"
+description = "Advent of Ada - Day 2"
+version = "0.1.0-dev"
+
+authors = ["Daniel Larraz"]
+maintainers = ["Daniel Larraz <daniel-larraz@users.noreply.github.com>"]
+maintainers-logins = ["daniel-larraz"]
+
+executables = ["day02"]
+[[depends-on]]
+gnatprove = "^13.2.1"
