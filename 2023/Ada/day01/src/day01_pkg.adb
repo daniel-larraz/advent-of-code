@@ -27,7 +27,7 @@ package body Day01_Pkg is
 
       function Is_Digit_In_Letters (
          Line : String;
-         I : Natural;
+         I : Positive;
          D : String) return Boolean
       with
          Pre => I in Line'Range
@@ -39,7 +39,7 @@ package body Day01_Pkg is
 
       procedure Get_Digit (
          Line : String;
-         I : Natural;
+         I : Positive;
          Success : out Boolean;
          D : out Digit) is
       begin
