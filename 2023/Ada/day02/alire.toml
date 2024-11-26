@@ -8,4 +8,4 @@ maintainers-logins = ["daniel-larraz"]
 
 executables = ["day02"]
 [[depends-on]]
-gnatprove = "^13.2.1"
+gnatprove = "^14.1.1"
