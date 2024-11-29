@@ -148,7 +148,7 @@ package body Day02_Sol is
          Set := (0, 0, 0);
          S := Input'First; L := Index (Input, Sep);
          while S < L and then L < Input'Last loop
-            pragma Assume (Input'First <= S);
+            pragma Loop_Invariant (Input'First <= S);
             Read_Set_Item (Input (S .. L - 1), Set, Error);
             if Error then
                return;
@@ -189,7 +189,7 @@ package body Day02_Sol is
       begin
          S := Input'First; L := Index (Input, Sep);
          while S < L and then L < Input'Last loop
-            pragma Assume (Input'First <= S);
+            pragma Loop_Invariant (Input'First <= S);
             Read_Game_Set (Input (S .. L - 1), Set, Error);
             if Error then
                return;
