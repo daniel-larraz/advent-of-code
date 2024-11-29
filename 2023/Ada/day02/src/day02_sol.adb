@@ -136,28 +136,48 @@ package body Day02_Sol is
          end case;
       end Read_Set_Item;
 
-      procedure Read_Game_Set (
-         Input : String;
-         Set   : out Game_Set;
-         Error : out Boolean)
-      with Pre => Input'Length > 0 is
+      generic
+         type Accumulator_Type is private;
+         Initial_Accumulator_Value : Accumulator_Type;
+         Separator : Character;
+      with
+         procedure Process_Substring (
+            Item  : String;
+            Acc   : in out Accumulator_Type;
+            Error : out Boolean);
+      procedure Fold_Delimited_String (
+            Input : String;
+            Acc   : out Accumulator_Type;
+            Error : out Boolean)
+      with Pre  => Input'Length > 0;
 
-         S, L : Natural;
-         Sep : constant Character := ',';
+      procedure Fold_Delimited_String (
+         Input : String;
+         Acc   : out Accumulator_Type;
+         Error : out Boolean
+      ) is
+         S : Natural := Input'First;
+         L : Natural := Index (Input, Separator);
       begin
-         Set := (0, 0, 0);
-         S := Input'First; L := Index (Input, Sep);
+         Acc := Initial_Accumulator_Value;
          while S < L and then L < Input'Last loop
             pragma Loop_Invariant (Input'First <= S);
-            Read_Set_Item (Input (S .. L - 1), Set, Error);
+            Process_Substring (Input (S .. L - 1), Acc, Error);
             if Error then
                return;
             end if;
             S := L + 1;
-            L := Index (Input (S .. Input'Last), Sep);
+            L := Index (Input (S .. Input'Last), Separator);
          end loop;
-         Read_Set_Item (Input (S .. Input'Last), Set, Error);
-      end Read_Game_Set;
+         Process_Substring (Input (S .. Input'Last), Acc, Error);
+      end Fold_Delimited_String;
+
+      procedure Read_Game_Set is new Fold_Delimited_String (
+         Accumulator_Type => Game_Set,
+         Initial_Accumulator_Value => (0, 0, 0),
+         Separator => ',',
+         Process_Substring => Read_Set_Item
+      );
 
       procedure Update_Min_Set_of_Cubes (
          Set : Game_Set;
@@ -175,43 +195,41 @@ package body Day02_Sol is
          return Set.Red * Set.Green * Set.Blue;
       end Power;
 
-      procedure Process_Game_Sets (
-         Input : String;
-         Id    : Big_Natural;
-         Sum   : in out Big_Natural;
-         Error : out Boolean)
-      with Pre => Input'Length > 0 is
-
-         S, L : Natural;
+      procedure Process_Game_Set (
+         Input            : String;
+         Min_Set_Of_Cubes : in out Game_Set;
+         Error            : out Boolean
+      ) is
          Set : Game_Set;
-         Sep : constant Character := ';';
-         Min_Set_Of_Cubes : Game_Set := (0, 0, 0);
       begin
-         S := Input'First; L := Index (Input, Sep);
-         while S < L and then L < Input'Last loop
-            pragma Loop_Invariant (Input'First <= S);
-            Read_Game_Set (Input (S .. L - 1), Set, Error);
-            if Error then
-               return;
-            end if;
+         Read_Game_Set (Input, Set, Error);
+         if not Error then
             Update_Min_Set_of_Cubes (Set, Min_Set_Of_Cubes);
-            S := L + 1;
-            L := Index (Input (S .. Input'Last), Sep);
-         end loop;
-         Read_Game_Set (Input (S .. Input'Last), Set, Error);
-         if Error then
-            return;
          end if;
-         Update_Min_Set_of_Cubes (Set, Min_Set_Of_Cubes);
+      end Process_Game_Set;
+
+      procedure Process_Game_Sets is new Fold_Delimited_String (
+         Accumulator_Type => Game_Set,
+         Initial_Accumulator_Value => (0, 0, 0),
+         Separator => ';',
+         Process_Substring => Process_Game_Set
+      );
+
+      procedure Update_Sum (
+         Id               : Big_Natural;
+         Min_Set_Of_Cubes : Game_Set;
+         Sum              : in out Big_Natural
+      ) is
+      begin
          case Target is
-            when Sum_of_Ids =>
-               if Is_Set_Possible (Min_Set_Of_Cubes) then
-                  Sum := Sum + Id;
-               end if;
-            when Sum_of_Powers =>
-               Sum := Sum + Power (Min_Set_Of_Cubes);
+         when Sum_of_Ids =>
+            if Is_Set_Possible (Min_Set_Of_Cubes) then
+               Sum := Sum + Id;
+            end if;
+         when Sum_of_Powers =>
+            Sum := Sum + Power (Min_Set_Of_Cubes);
          end case;
-      end Process_Game_Sets;
+      end Update_Sum;
 
       Id  : Big_Natural;
       Idx : Natural;
@@ -225,7 +243,12 @@ package body Day02_Sol is
       if Error then
          return;
       end if;
-      Process_Game_Sets (Line (Idx + 1 .. Line'Last), Id, Sum, Error);
+      declare
+         Min_Set_Of_Cubes : Game_Set;
+      begin
+         Process_Game_Sets (Line (Idx + 1 .. Line'Last), Min_Set_Of_Cubes, Error);
+         Update_Sum (Id, Min_Set_Of_Cubes, Sum);
+      end;
    end Process_Line;
 
    procedure Process_Result (
