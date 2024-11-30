@@ -245,8 +245,9 @@ package body Day02_Sol is
       end if;
       declare
          Min_Set_Of_Cubes : Game_Set;
+         Game_Sets_Line : constant String := Line (Idx + 1 .. Line'Last);
       begin
-         Process_Game_Sets (Line (Idx + 1 .. Line'Last), Min_Set_Of_Cubes, Error);
+         Process_Game_Sets (Game_Sets_Line, Min_Set_Of_Cubes, Error);
          Update_Sum (Id, Min_Set_Of_Cubes, Sum);
       end;
    end Process_Line;
