@@ -26,6 +26,8 @@ package AOC is
       type Data_Type is private;
       Max_Line_Length : Positive := 1024;
    with
+      function Invariant (Data : Data_Type) return Boolean;
+   with
       procedure Process_Line (
          Line : String;
          Part : Puzzle_Part;
@@ -36,7 +38,9 @@ package AOC is
       Part     : Puzzle_Part;
       Success  : out Boolean;
       Data     : in out Data_Type
-   );
+   ) with
+      Pre  => Invariant (Data),
+      Post => not Success or else Invariant (Data);
 
    function Index (Source : String; Sep : Character) return Natural;
 

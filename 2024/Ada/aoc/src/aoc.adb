@@ -36,13 +36,17 @@ package body AOC is
          File : File_Type
       )
       with
-         Pre  => Is_Open (File) and then Mode (File) = In_File,
-         Post => Is_Open (File)
+         Pre  =>
+            Is_Open (File) and then Mode (File) = In_File and then
+            not Success and then Invariant (Data),
+         Post =>
+            Is_Open (File) and then (not Success or else Invariant (Data))
       is
          Buffer : String (1 .. Max_Line_Length) with Relaxed_Initialization;
          Last   : Natural;
       begin
          while not End_Of_File (File) loop
+            pragma Loop_Invariant (Invariant (Data));
             Get_Line (File, Buffer, Last);
             Check (Buffer'First <= Last, "Error while reading line from file");
             declare

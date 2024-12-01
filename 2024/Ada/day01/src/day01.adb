@@ -39,6 +39,8 @@ procedure Day01 is
       Part  : Puzzle_Part;
       Input : in out Input_Type
    ) with
+      Pre => Length (Input.Left_List) = Length (Input.Right_List),
+      Post => Length (Input.Left_List) = Length (Input.Right_List),
       Exceptional_Cases => (Invalid_Input => True)
    is
       Id  : Big_Natural;
@@ -70,8 +72,12 @@ procedure Day01 is
       end if;
    end Read_Id_Pair;
 
+   function Equal_Length (Input : Input_Type) return Boolean is
+      (Length (Input.Left_List) = Length (Input.Right_List));
+
    procedure Read_Location_Ids is new Process_File_Line_by_Line (
       Data_Type => Input_Type,
+      Invariant => Equal_Length,
       Process_Line => Read_Id_Pair
    );
 
@@ -83,10 +89,6 @@ procedure Day01 is
       Distance_Sum : Big_Natural := 0;
    begin
       Read_Location_Ids (Filename, Part_1, Success, Input);
-      Check (
-         Length (Left_Lst) = Length (Right_Lst),
-         "Input lists of different length"
-      );
       if Success then
          Sort (Left_Lst);
          Sort (Right_Lst);
