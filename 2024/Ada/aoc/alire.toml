@@ -1,0 +1,10 @@
+name = "aoc"
+description = "Library for Advent of Code (AoC)"
+version = "0.1.0-dev"
+
+authors = ["Daniel Larraz"]
+maintainers = ["Daniel Larraz <daniel-larraz@users.noreply.github.com>"]
+maintainers-logins = ["daniel-larraz"]
+
+[[depends-on]]
+gnatprove = "^14.1.1"
