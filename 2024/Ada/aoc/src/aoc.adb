@@ -2,7 +2,7 @@ pragma Spark_Mode (On);
 
 package body AOC is
 
-   procedure Check (Condition : Boolean; Error_Msg: String) is
+   procedure Check (Condition : Boolean; Error_Msg : String) is
    begin
       if not Condition then
          if Error_Msg /= "" then
@@ -99,7 +99,7 @@ package body AOC is
       for C of Input loop
          pragma Loop_Invariant (0 <= N);
          Check (C in '0' .. '9', "Unexpected character in Read_Big_Natural");
-         N := 10 * N + To_Big_Integer(To_Digit (C));
+         N := 10 * N + To_Big_Integer (To_Digit (C));
       end loop;
    end Read_Big_Natural;
 
