@@ -107,4 +107,23 @@ package body AOC is
       end loop;
    end Read_Big_Natural;
 
+   procedure Fold_Delimited_String (
+      Input : String;
+      Acc   : out Accumulator_Type
+   ) is
+      S, L : Natural;
+   begin
+      Acc := Initial_Accumulator_Value;
+      if Input'Length > 0 then
+         S := Input'First; L := Index (Input, Separator);
+         while S < L and then L < Input'Last loop
+            pragma Loop_Invariant (Input'First <= S);
+            Process_Substring (Input (S .. L - 1), Acc);
+            S := L + 1;
+            L := Index (Input (S .. Input'Last), Separator);
+         end loop;
+         Process_Substring (Input (S .. Input'Last), Acc);
+      end if;
+   end Fold_Delimited_String;
+
 end AOC;

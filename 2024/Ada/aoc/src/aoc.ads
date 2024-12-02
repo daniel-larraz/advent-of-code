@@ -54,4 +54,18 @@ package AOC is
    procedure Read_Big_Natural (Input : String; N : out Big_Natural) with
    Exceptional_Cases => (Invalid_Input => True);
 
+   generic
+      type Accumulator_Type is private;
+      Initial_Accumulator_Value : Accumulator_Type;
+      Separator : Character;
+   with
+      procedure Process_Substring (
+         Item  : String;
+         Acc   : in out Accumulator_Type);
+   procedure Fold_Delimited_String (
+         Input : String;
+         Acc   : out Accumulator_Type)
+   with
+      Exceptional_Cases => (Invalid_Input => True);
+
 end AOC;
