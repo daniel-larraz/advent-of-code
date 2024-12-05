@@ -68,4 +68,6 @@ package AOC is
    with
       Exceptional_Cases => (Invalid_Input => True);
 
+   function Str_Length (S : String) return Natural is (S'Length);
+
 end AOC;
