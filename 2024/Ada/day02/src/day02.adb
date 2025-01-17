@@ -23,7 +23,8 @@ procedure Day02 is
       Report : in out Report_Type
    )
    with
-      Exceptional_Cases => (Invalid_Input => True)
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
       Level : Big_Natural;
    begin
@@ -90,7 +91,8 @@ procedure Day02 is
       Part     : Puzzle_Part;
       Num_Safe : in out Natural
    ) with
-      Exceptional_Cases => (Invalid_Input => True)
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
       Report : Report_Type;
    begin

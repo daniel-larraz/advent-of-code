@@ -118,6 +118,7 @@ package body AOC is
          S := Input'First; L := Index (Input, Separator);
          while S < L and then L < Input'Last loop
             pragma Loop_Invariant (Input'First <= S);
+            pragma Loop_Variant (Increases => L);
             Process_Substring (Input (S .. L - 1), Acc);
             S := L + 1;
             L := Index (Input (S .. Input'Last), Separator);

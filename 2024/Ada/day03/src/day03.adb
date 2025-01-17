@@ -19,7 +19,8 @@ procedure Day03 is
    )
    with
       Pre  => Is_Open (File) and then Mode (File) = In_File,
-      Post => Is_Open (File) and then Mode (File) = In_File
+      Post => Is_Open (File) and then Mode (File) = In_File,
+      Always_Terminates
    is
    begin
       Get (File, C);
@@ -35,7 +36,8 @@ procedure Day03 is
    with
       Pre  => Is_Open (File) and then Mode (File) = In_File,
       Post => Is_Open (File) and then Mode (File) = In_File,
-      Exceptional_Cases => (Parse_Error | End_Error => True)
+      Exceptional_Cases => (Parse_Error | End_Error => True),
+      Always_Terminates
    is
    begin
       Get (File, C);
@@ -52,7 +54,8 @@ procedure Day03 is
    with
       Pre  => Is_Open (File) and then Mode (File) = In_File,
       Post => Is_Open (File) and then Mode (File) = In_File,
-      Exceptional_Cases => (Parse_Error | End_Error => True)
+      Exceptional_Cases => (Parse_Error | End_Error => True),
+      Always_Terminates
    is
       End_Reached : exception;
 
@@ -92,7 +95,8 @@ procedure Day03 is
    with
       Pre  => Is_Open (File) and then Mode (File) = In_File,
       Post => Is_Open (File) and then Mode (File) = In_File,
-      Exceptional_Cases => (Parse_Error | End_Error => True)
+      Exceptional_Cases => (Parse_Error | End_Error => True),
+      Always_Terminates
    is
    begin
       X := 0; Y := 0;
@@ -110,7 +114,8 @@ procedure Day03 is
    with
       Pre  => Is_Open (File) and then Mode (File) = In_File,
       Post => Is_Open (File) and then Mode (File) = In_File,
-      Exceptional_Cases => (Parse_Error | End_Error => True)
+      Exceptional_Cases => (Parse_Error | End_Error => True),
+      Always_Terminates
    is
    begin
       Parse_Char (File, 'o');

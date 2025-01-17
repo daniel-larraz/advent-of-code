@@ -34,14 +34,18 @@ procedure Day01 is
       Right_List : Location_List;
    end record;
 
+   function Equal_Length (Input : Input_Type) return Boolean is
+      (Length (Input.Left_List) = Length (Input.Right_List));
+
    procedure Read_Id_Pair (
       Line  : String;
       Part  : Puzzle_Part;
       Input : in out Input_Type
    ) with
-      Pre => Length (Input.Left_List) = Length (Input.Right_List),
-      Post => Length (Input.Left_List) = Length (Input.Right_List),
-      Exceptional_Cases => (Invalid_Input => True)
+      Pre => Equal_Length (Input),
+      Post => Equal_Length (Input),
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
       Id  : Big_Natural;
       Idx : Natural;
@@ -71,9 +75,6 @@ procedure Day01 is
          Append (Input.Right_List, Id);
       end if;
    end Read_Id_Pair;
-
-   function Equal_Length (Input : Input_Type) return Boolean is
-      (Length (Input.Left_List) = Length (Input.Right_List));
 
    procedure Read_Location_Ids is new Process_File_Line_by_Line (
       Data_Type => Input_Type,
@@ -106,7 +107,8 @@ procedure Day01 is
       List : Location_List;
       Map  : out Location_Map
    ) with
-      Exceptional_Cases => (Invalid_Input => True)
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
    begin
       Map := Empty_Map;

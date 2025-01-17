@@ -26,7 +26,8 @@ procedure Day04 is
       Part  : Puzzle_Part;
       Input : in out Input_Type
    ) with
-      Exceptional_Cases => (Invalid_Input => True)
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
    begin
       if Part = Part_1 or else Part = Part_2 then
@@ -80,7 +81,8 @@ procedure Day04 is
          (for all I in Input =>
             Str_Length (Element (Input, I)) = Num_Cols),
 
-      Exceptional_Cases => (Invalid_Input => True)
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates
    is
    begin
       Num_Rows := Natural (Length (Input));
@@ -100,7 +102,7 @@ procedure Day04 is
       Table : Table_Type;
       N : out Big_Natural
    )
-   is
+   with Always_Terminates is
 
       function In_Integer (I1, I2 : Integer) return Boolean is
       (if I2 >= 0 then I1 <= Integer'Last - I2 else I1 >= Integer'First - I2);

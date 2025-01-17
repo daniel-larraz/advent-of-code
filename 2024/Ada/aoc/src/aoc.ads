@@ -11,14 +11,16 @@ package AOC is
 
    procedure Check (Condition : Boolean; Error_Msg : String) with
    Post => Condition,
-   Exceptional_Cases => (Invalid_Input => not Condition);
+   Exceptional_Cases => (Invalid_Input => not Condition),
+   Always_Terminates;
 
    procedure Open_Input_File (
       File : in out File_Type;
       Name : String
    ) with
       Pre  => not Is_Open (File),
-      Post => not Is_Open (File) or else Mode (File) = In_File;
+      Post => not Is_Open (File) or else Mode (File) = In_File,
+      Always_Terminates;
 
    type Puzzle_Part is (Part_1, Part_2);
 
@@ -40,7 +42,8 @@ package AOC is
       Data     : in out Data_Type
    ) with
       Pre  => Invariant (Data),
-      Post => not Success or else Invariant (Data);
+      Post => not Success or else Invariant (Data),
+      Always_Terminates => False;
 
    function Index (Source : String; Sep : Character) return Natural;
 
@@ -52,7 +55,8 @@ package AOC is
       Post => To_Digit'Result in 0 .. 9;
 
    procedure Read_Big_Natural (Input : String; N : out Big_Natural) with
-   Exceptional_Cases => (Invalid_Input => True);
+   Exceptional_Cases => (Invalid_Input => True),
+   Always_Terminates;
 
    generic
       type Accumulator_Type is private;
@@ -66,7 +70,8 @@ package AOC is
          Input : String;
          Acc   : out Accumulator_Type)
    with
-      Exceptional_Cases => (Invalid_Input => True);
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates;
 
    function Str_Length (S : String) return Natural is (S'Length);
 
