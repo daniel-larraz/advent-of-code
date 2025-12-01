@@ -10,6 +10,8 @@ procedure Day01 is
 
    type Dial_Number is mod 100;
 
+   M : constant Big_Natural := To_Big_Integer (Dial_Number'Modulus);
+
    function To_Dial_Number (N : Big_Natural) return Dial_Number is
    begin
       return Dial_Number'Mod (To_Integer (N));
@@ -64,13 +66,13 @@ procedure Day01 is
             if Direction = 'L' then
                Diff := P - Distance;
                if Diff <= 0 then
-                  Wraps := Diff / (-100) +
+                  Wraps := Diff / (-M) +
                     To_Big_Integer (if P = 0 then 0 else 1);
                   Info.Password := Info.Password + Wraps;
                end if;
                Info.Position := Info.Position - To_Dial_Number (Distance);
             else
-               Wraps := (P + Distance) / 100;
+               Wraps := (P + Distance) / M;
                Info.Password := Info.Password + Wraps;
                Info.Position := Info.Position + To_Dial_Number (Distance);
             end if;
