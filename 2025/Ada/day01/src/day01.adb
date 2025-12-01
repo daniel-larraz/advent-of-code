@@ -10,7 +10,9 @@ procedure Day01 is
 
    type Dial_Number is mod 100;
 
-   M : constant Big_Natural := To_Big_Integer (Dial_Number'Modulus);
+   M : constant Natural := Dial_Number'Modulus;
+
+   MAX_DISTANCE : constant Big_Natural := 1000; -- Maximum allowed distance
 
    function To_Dial_Number (N : Big_Natural) return Dial_Number is
    begin
@@ -45,7 +47,7 @@ procedure Day01 is
       Read_Big_Natural (Line (Line'First + 1 .. Line'Last), Distance);
       Check (In_Range (Distance,
          Low => To_Big_Integer (Natural'First),
-         High => To_Big_Integer (Natural'Last)),
+         High => MAX_DISTANCE),
          "Distance is not in range");
 
       if Part = Part_1 then
@@ -59,21 +61,19 @@ procedure Day01 is
          end if;
       else
          declare
-            Diff, Wraps : Big_Integer;
-            P : constant Big_Natural :=
-               To_Big_Integer (Natural (Info.Position));
+            Diff, Wraps : Integer;
+            P : constant Natural := Natural (Info.Position);
          begin
             if Direction = 'L' then
-               Diff := P - Distance;
+               Diff := P - To_Integer (Distance);
                if Diff <= 0 then
-                  Wraps := Diff / (-M) +
-                    To_Big_Integer (if P = 0 then 0 else 1);
-                  Info.Password := Info.Password + Wraps;
+                  Wraps := Diff / (-M) + (if P = 0 then 0 else 1);
+                  Info.Password := Info.Password + To_Big_Integer (Wraps);
                end if;
                Info.Position := Info.Position - To_Dial_Number (Distance);
             else
-               Wraps := (P + Distance) / M;
-               Info.Password := Info.Password + Wraps;
+               Wraps := (P + To_Integer (Distance)) / M;
+               Info.Password := Info.Password + To_Big_Integer (Wraps);
                Info.Position := Info.Position + To_Dial_Number (Distance);
             end if;
          end;
