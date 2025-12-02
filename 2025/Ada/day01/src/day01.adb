@@ -12,12 +12,7 @@ procedure Day01 is
 
    M : constant Natural := Dial_Number'Modulus;
 
-   MAX_DISTANCE : constant Big_Natural := 1000; -- Maximum allowed distance
-
-   function To_Dial_Number (N : Big_Natural) return Dial_Number is
-   begin
-      return Dial_Number'Mod (To_Integer (N));
-   end To_Dial_Number;
+   MAX_DISTANCE : constant Natural := 1000; -- Maximum allowed distance
 
    type Puzzle_Info is record
      Position : Dial_Number := 50;
@@ -35,7 +30,7 @@ procedure Day01 is
       Always_Terminates
    is
       Direction : Character;
-      Distance  : Big_Natural;
+      Distance  : Natural;
    begin
       Check (Line'Length >= 2, "A line must have at least two characters");
 
@@ -44,17 +39,14 @@ procedure Day01 is
          "The direction of a rotation should be 'L' or 'R', but found "
          & Direction);
 
-      Read_Big_Natural (Line (Line'First + 1 .. Line'Last), Distance);
-      Check (In_Range (Distance,
-         Low => To_Big_Integer (Natural'First),
-         High => MAX_DISTANCE),
-         "Distance is not in range");
+      Read_Natural (
+         Line (Line'First + 1 .. Line'Last), Distance, MAX_DISTANCE);
 
       if Part = Part_1 then
          if Direction = 'L' then
-            Info.Position := Info.Position - To_Dial_Number (Distance);
+            Info.Position := Info.Position - Dial_Number'Mod (Distance);
          else
-            Info.Position := Info.Position + To_Dial_Number (Distance);
+            Info.Position := Info.Position + Dial_Number'Mod (Distance);
          end if;
          if Info.Position = 0 then
             Info.Password := Info.Password + 1;
@@ -65,16 +57,16 @@ procedure Day01 is
             P : constant Natural := Natural (Info.Position);
          begin
             if Direction = 'L' then
-               Diff := P - To_Integer (Distance);
+               Diff := P - Distance;
                if Diff <= 0 then
                   Wraps := Diff / (-M) + (if P = 0 then 0 else 1);
                   Info.Password := Info.Password + To_Big_Integer (Wraps);
                end if;
-               Info.Position := Info.Position - To_Dial_Number (Distance);
+               Info.Position := Info.Position - Dial_Number'Mod (Distance);
             else
-               Wraps := (P + To_Integer (Distance)) / M;
+               Wraps := (P + Distance) / M;
                Info.Password := Info.Password + To_Big_Integer (Wraps);
-               Info.Position := Info.Position + To_Dial_Number (Distance);
+               Info.Position := Info.Position + Dial_Number'Mod (Distance);
             end if;
          end;
       end if;

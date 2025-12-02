@@ -58,6 +58,15 @@ package AOC is
    Exceptional_Cases => (Invalid_Input => True),
    Always_Terminates;
 
+   procedure Read_Natural (
+      Input     : String;
+      N         : out Natural;
+      Max_Limit : Natural := Natural'Last
+   ) with
+      Post => N <= Max_Limit,
+      Exceptional_Cases => (Invalid_Input => True),
+      Always_Terminates;
+
    generic
       type Accumulator_Type is private;
       Initial_Accumulator_Value : Accumulator_Type;

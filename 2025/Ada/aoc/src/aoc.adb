@@ -107,6 +107,29 @@ package body AOC is
       end loop;
    end Read_Big_Natural;
 
+   procedure Read_Natural (
+      Input       : String;
+      N           : out Natural;
+      Max_Limit   : Natural := Natural'Last
+   ) is
+   begin
+      N := 0;
+      Check (Input'Length > 0, "Empty input in Read_Natural");
+      for C of Input loop
+         Check (C in '0' .. '9', "Unexpected character in Read_Natural");
+         declare
+            Digit_Val : constant Natural := To_Digit (C);
+         begin
+            Check (N <= Max_Limit / 10,
+               "Overflow detected in Read_Natural (multiplication)");
+            N := 10 * N;
+            Check (N <= Max_Limit - Digit_Val,
+               "Overflow detected in Read_Natural (addition)");
+            N := N + Digit_Val;
+         end;
+      end loop;
+   end Read_Natural;
+
    procedure Fold_Delimited_String (
       Input : String;
       Acc   : out Accumulator_Type
