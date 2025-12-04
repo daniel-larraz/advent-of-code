@@ -26,7 +26,7 @@ procedure Day02 is
       Look_Ahead (File, C, EOL);
       while not EOL and then C in '0' .. '9' loop
          Get (File, C);
-         Check (C in '0' .. '9', "Error: Unexpected character");
+         Check (C in '0' .. '9', "Unexpected character");
          N := 10 * N + To_Big_Integer (To_Digit (C));
          Look_Ahead (File, C, EOL);
       end loop;
@@ -46,7 +46,7 @@ procedure Day02 is
       Last_Id := 0;
       Get (File, First_Id);
       Get (File, Sep);
-      Check (Sep = '-', "Error: Found invalid ID separator.");
+      Check (Sep = '-', "Found invalid ID separator.");
       Get (File, Last_Id);
    end Read_Range;
 
@@ -151,12 +151,12 @@ procedure Day02 is
    begin
       Open_Input_File (File, Filename);
       if Is_Open (File) then
-         Check (not End_Of_File (File), "Error: Input file is empty.");
+         Check (not End_Of_File (File), "Input file is empty.");
          Read_Range (File, First_Id, Last_Id);
          Update_Answer (Part, First_Id, Last_Id, Answer);
          while not End_Of_File (File) loop
             Get (File, Sep);
-            Check (Sep = ',', "Error: Found invalid range separator.");
+            Check (Sep = ',', "Found invalid range separator.");
             Read_Range (File, First_Id, Last_Id);
             Update_Answer (Part, First_Id, Last_Id, Answer);
          end loop;
