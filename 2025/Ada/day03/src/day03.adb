@@ -50,13 +50,12 @@ procedure Day03 is
       Check (Line'Length >= Num_Digits,
          "Line has fewer than " & Num_Digits'Image & " digits.");
       for Pos in 1 .. Num_Digits loop
-         pragma Loop_Invariant (Start in Line'Range
-           or else Start > Line'Length - (Num_Digits - Pos));
+         pragma Loop_Invariant (Start in Line'Range);
          declare
             Max_Char : Character := '0';
             Max_Pos  : Integer := Start;
          begin
-            for I in Start .. Line'Length - (Num_Digits - Pos) loop
+            for I in Start .. Line'Last - (Num_Digits - Pos) loop
                pragma Loop_Invariant (I in Line'Range);
                pragma Loop_Invariant (Max_Pos in Start .. I);
                if Line (I) > Max_Char then
