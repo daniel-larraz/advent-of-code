@@ -6,5 +6,8 @@ authors = ["Daniel Larraz"]
 maintainers = ["Daniel Larraz <daniel-larraz@users.noreply.github.com>"]
 maintainers-logins = ["daniel-larraz"]
 
+[build-switches]
+"*".ada_version = "Ada2022"
+
 [[depends-on]]
 gnatprove = "^14.1.1"

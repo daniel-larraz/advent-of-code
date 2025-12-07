@@ -1,4 +1,7 @@
 with "config/aoc_config.gpr";
+
+with "sparklib";
+
 project Aoc is
 
    for Library_Name use "Aoc";

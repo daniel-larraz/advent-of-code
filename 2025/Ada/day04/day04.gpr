@@ -1,7 +1,5 @@
 with "config/day04_config.gpr";
 
-with "sparklib";
-
 project Day04 is
 
    for Source_Dirs use ("src/", "config/");
