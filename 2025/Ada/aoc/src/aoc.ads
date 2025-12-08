@@ -1,7 +1,7 @@
 pragma Spark_Mode (On);
-pragma Ada_2022;
 
 with Ada.Text_IO; use Ada.Text_IO;
+
 with Ada.Numerics.Big_Numbers.Big_Integers;
 use  Ada.Numerics.Big_Numbers.Big_Integers;
 
