@@ -70,7 +70,7 @@ procedure Day03 is
          end;
       end loop;
       declare
-         Max_Joltage : Big_Natural;
+         Max_Joltage : Big_Integer;
       begin
          Read_Big_Natural (Result, Max_Joltage);
          Total_Joltage := Total_Joltage + Max_Joltage;

@@ -12,7 +12,7 @@ executables = ["day04"]
 "*".ada_version = "Ada2022"
 
 [[depends-on]]
-gnatprove = "^14.1.1"
+gnatprove = "^15.1.0"
 aoc = "*"
 
 [[pins]]
