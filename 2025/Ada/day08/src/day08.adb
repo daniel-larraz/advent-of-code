@@ -198,16 +198,27 @@ procedure Day08 is
       Pre => Length (Points) > 0 and then Are_Edges_Valid (Points, Edges),
       Exceptional_Cases => (Invalid_Input => True)
    is
-      package Sizes_Pkg is new SPARK.Containers.Formal.Unbounded_Vectors
-         (Index_Type => Positive, Element_Type => Big_Integer);
-
-      package Sizes_Sorting is new Sizes_Pkg.Generic_Sorting;
-
-      subtype Size_List is Sizes_Pkg.Vector;
+      procedure Get_Three_Largest_Sizes (
+         Boxes : Disjoint_Set;
+         S1, S2, S3 : out Positive
+      ) is
+      begin
+         S1 := 1; S2 := 1; S3 := 1;
+         for I in 1 .. Boxes.N loop
+            if Boxes.Parent (I) = I then
+               if Boxes.Size (I) >= S1 then
+                  S3 := S2; S2 := S1; S1 := Boxes.Size (I);
+               elsif Boxes.Size (I) >= S2 then
+                  S3 := S2; S2 := Boxes.Size (I);
+               elsif Boxes.Size (I) > S3 then
+                  S3 := Boxes.Size (I);
+               end if;
+            end if;
+         end loop;
+      end Get_Three_Largest_Sizes;
 
       N     : constant Positive := Integer (Length (Points));
       Boxes : Disjoint_Set (N);
-      Sizes : Size_List;
    begin
       Check (Integer (Edges_Pkg.Length (Edges)) >= Num_Pairs,
          "Fewer edges than number of pairs.");
@@ -219,24 +230,15 @@ procedure Day08 is
             Union (Boxes, E.A, E.B);
          end;
       end loop;
-      for I in 1 .. N loop
-         if Boxes.Parent (I) = I then
-            Check (Sizes_Pkg.Length (Sizes) < Last_Count,
-               "Size list length validation failed.");
-            Sizes_Pkg.Append (Sizes, To_Big_Integer (Boxes.Size (I)));
-         end if;
-      end loop;
-      Sizes_Sorting.Sort (Sizes);
-      Check (Sizes_Pkg.Length (Sizes) >= 3, "Fewer than three disjoint sets.");
       declare
-         Last_Idx renames Sizes_Pkg.Last_Index (Sizes);
-         S1, S2, S3 : Big_Integer;
+         S1, S2, S3 : Positive;
+         Answer     : Big_Integer;
       begin
-         S1 := Sizes_Pkg.Element (Sizes, Last_Idx);
-         S2 := Sizes_Pkg.Element (Sizes, Last_Idx - 1);
-         S3 := Sizes_Pkg.Element (Sizes, Last_Idx - 2);
+         Get_Three_Largest_Sizes (Boxes, S1, S2, S3);
+         Answer := To_Big_Integer (S1) * To_Big_Integer (S2) *
+            To_Big_Integer (S3);
          Put ("Answer:");
-         Put_Line (To_String (S1 * S2 * S3));
+         Put_Line (To_String (Answer));
       end;
    end Solve_Part_1;
 
