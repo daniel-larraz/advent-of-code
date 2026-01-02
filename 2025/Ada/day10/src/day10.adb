@@ -693,7 +693,7 @@ procedure Day10 is
                   Diagram, Schematics, Min_Presses);
             else
                declare
-                  Reqs    : Int_Array (0 .. Diagram'Last);
+                  Reqs : Int_Array (0 .. Diagram'Last);
                begin
                   Read_Joltage_Requirements (
                      Line (Idx + 1 .. Line'Last), Reqs);
