@@ -1,0 +1,19 @@
+name = "day12"
+description = "Advent of Ada - Day 12"
+version = "0.1.0-dev"
+
+authors = ["Daniel Larraz"]
+maintainers = ["Daniel Larraz <daniel-larraz@users.noreply.github.com>"]
+maintainers-logins = ["daniel-larraz"]
+
+executables = ["day12"]
+
+[build-switches]
+"*".ada_version = "Ada2022"
+
+[[depends-on]]
+gnatprove = "^15.1.0"
+aoc = "*"
+
+[[pins]]
+aoc = { path='../aoc' }

@@ -48,12 +48,7 @@ package body AOC is
          while not End_Of_File (File) loop
             pragma Loop_Invariant (Invariant (Data));
             Get_Line (File, Buffer, Last);
-            Check (Buffer'First <= Last, "Error while reading line from file");
-            declare
-               Line : constant String := Buffer (Buffer'First .. Last);
-            begin
-               Process_Line (Line, Part, Data);
-            end;
+            Process_Line (Buffer (Buffer'First .. Last), Part, Data);
          end loop;
          Success := True;
       exception
